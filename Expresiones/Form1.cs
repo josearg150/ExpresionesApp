@@ -8,33 +8,42 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Expresiones
+/// <summary>
+/// Formulario principal para la interfaz de la aplicación.
+/// 
+/// 
+/// </summary>
+/// 
+/// <Para>
+/// 
+/// </Para>
+/// 
+/// <Supuestos>
+/// </Supuestos>
+/// 
+/// <Autor>
+/// Jose angel rocha garcia 
+/// Jose luis carreon reyes
+/// </Autor>
+/// 
+/// <FechaCreacion>
+/// 30/08/2021
+/// </FechaCreacion>
+namespace wfExpresionesArbolBinario
 {
     public partial class Form1 : Form
     {
         private char[] operadores = { '+', '-', '*', '/', '^', '√' };
         private char[] numeros = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
+
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnPruebas_Click(object sender, EventArgs e)
-        {
-            Nodo n = new Nodo('a');
-            Nodo der = new Nodo('b');
-            n.setDerecho(der);
-            lblPruebas.Text = der.obtenerCaracter().ToString();
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
-            string expresion = tbExpresion.Text;
+            string expresion = txbExpresion.Text;
             string auxChar = "";
             List<char> expresionValidada = new List<char>();
 
@@ -51,13 +60,13 @@ namespace Expresiones
                 if (!operadores.Contains(c) && !numeros.Contains(c))
                 {
                     System.Windows.Forms.MessageBox.Show("Input inválido. Operadores que no sean operadores o números no se aceptan.");
-                    tbExpresion.Clear();
+                    txbExpresion.Clear();
                 }
                 // La expresión no puede comenzar con un operador
                 if (i == 0 && operadores.Contains(c) && c != '√')
                 {
                     System.Windows.Forms.MessageBox.Show("Input inválido. La expresión no puede comenzar con un operador.");
-                    tbExpresion.Clear();
+                    txbExpresion.Clear();
                 }
                 // A menos que sea una raíz cuadrada
                 else if (i == 0 && c == '√')
@@ -68,7 +77,7 @@ namespace Expresiones
                 else if (i == expresion.Length - 1 && operadores.Contains(c))
                 {
                     System.Windows.Forms.MessageBox.Show("Input inválido. La expresión no puede terminar con un operador.");
-                    tbExpresion.Clear();
+                    txbExpresion.Clear();
                 }
                 // Dos operadores no pueden estar uno al lado del otro, excepto por la raíz cuadrada (el 2 es implícito)
                 if (auxChar.Equals("op") && operadores.Contains(c))
@@ -76,18 +85,16 @@ namespace Expresiones
                     if (c == '√')
                     {
                         expresionValidada.Add(c);
-                    }
-                    else
+                    } else
                     {
                         System.Windows.Forms.MessageBox.Show("Input inválido. Dos operadores no pueden estar uno al lado del otro.");
-                        tbExpresion.Clear();
+                        txbExpresion.Clear();
                     }
                     // Se lleva si el caracter de la iteración anterior es número u operador
                     if (numeros.Contains(c))
                     {
                         auxChar = "num";
-                    }
-                    else if (operadores.Contains(c))
+                    } else if (operadores.Contains(c))
                     {
                         auxChar = "op";
                     }
@@ -97,6 +104,13 @@ namespace Expresiones
             }
             System.Windows.Forms.MessageBox.Show(new string(expresionValidada.ToArray()));
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        // Se presiona el botón de "Aceptar" al presionar <Enter>
         private void txbExpresion_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
