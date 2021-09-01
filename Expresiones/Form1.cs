@@ -27,8 +27,9 @@ namespace Expresiones
         private void btnPruebas_Click(object sender, EventArgs e)
         {
             Nodo n = new Nodo('a');
-
-            lblPruebas.Text = n.obtenerCaracter().ToString();
+            Nodo der = new Nodo('b');
+            n.setDerecho(der);
+            lblPruebas.Text = der.obtenerCaracter().ToString();
         }
 
         private void button1_Click(object sender, EventArgs e)

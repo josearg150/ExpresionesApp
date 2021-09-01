@@ -73,11 +73,18 @@ namespace Expresiones
             return derecho;
         }
 
+        public void setDerecho(Nodo _derecho)
+        {
+            derecho = _derecho;
+        }
         public Nodo obtenerIzquierdo()
         {
             return izquierdo;
         }
-
+        public void setIzquierdo(Nodo _izquierdo)
+        {
+            derecho = _izquierdo;
+        }
         public void setCaracter(char _caracter)
         {
             caracter = _caracter;
@@ -88,8 +95,9 @@ namespace Expresiones
             return caracter;
         }
 
+
         public Nodo insertar(Nodo a, Nodo b)
-        {
+        {  ///Hay que cambiar el metodo para los operadores 
             //Comparamos si su lado izquierdo para saber si esta vacio 
             if (b.caracter.CompareTo(a.caracter) < 0)
             {
