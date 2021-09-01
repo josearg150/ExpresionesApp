@@ -51,12 +51,12 @@ namespace wfExpresionesArbolBinario
                 System.Windows.Forms.MessageBox.Show("Input inválido. Intente de nuevo.");
             } else
             {
-                /*if (!initbool)
+                if (!initbool)
                     ShuntingYard.InitializeOperators();
-                    initbool = true;*/
-                //System.Windows.Forms.MessageBox.Show(ShuntingYard.GetRPN(Expresion));
+                    initbool = true;
+                System.Windows.Forms.MessageBox.Show(ShuntingYard.GetRPN(Expresion));
                 //System.Windows.Forms.MessageBox.Show(ShuntingYard.GetRPN(txbExpresion.Text));
-                System.Windows.Forms.MessageBox.Show(Expresion);
+                //System.Windows.Forms.MessageBox.Show(Expresion);
             }
         }
 
