@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InfixToRPN;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -49,9 +50,13 @@ namespace wfExpresionesArbolBinario
                 System.Windows.Forms.MessageBox.Show("Input inválido. Intente de nuevo.");
             } else
             {
-                System.Windows.Forms.MessageBox.Show(Expresion);
+                //ShuntingYard ExpresionRPN = new ShuntingYard(Expresion);
+                //System.Windows.Forms.MessageBox.Show(ShuntingYard.GetRPN(Expresion));
+                ShuntingYard.InitializeOperators();
+                System.Windows.Forms.MessageBox.Show(ShuntingYard.GetRPN(Expresion));
+                //System.Windows.Forms.MessageBox.Show(Expresion);
             }
-            
+
         }
 
         private string ValidarInput(string expresion)
@@ -104,15 +109,15 @@ namespace wfExpresionesArbolBinario
                         {
                             return "";
                         }
-                        // Se lleva si el caracter de la iteración anterior es número u operador
-                        if (numeros.Contains(c))
-                        {
-                            AuxChar = "num";
-                        }
-                        else if (operadores.Contains(c))
-                        {
-                            AuxChar = "op";
-                        }
+                    }
+                    // Se lleva si el caracter de la iteración anterior es número u operador
+                    if (numeros.Contains(c))
+                    {
+                        AuxChar = "num";
+                    }
+                    else if (operadores.Contains(c))
+                    {
+                        AuxChar = "op";
                     }
                     ExpresionValidada.Add(c);
                     i++;

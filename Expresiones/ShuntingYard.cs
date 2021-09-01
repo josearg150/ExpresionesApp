@@ -13,13 +13,19 @@ namespace InfixToRPN
         public int precedence { get; set; }
     }
 
-    class Program
+    class ShuntingYard
     {
+        /*private string infixString;
+        public ShuntingYard(string infixString)
+        {
+            this.infixString = infixString;
+        }*/
+
         const int LEFT_ASSOCIATIVE = 0;
         const int RIGHT_ASSOCIATIVE = 1;
         static Dictionary<string, Operator> Operators = new Dictionary<string, Operator>();
 
-        private static void InitializeOperators()
+        public static void InitializeOperators()
         {
             Operators.Add("^", new Operator { operatorCode = "^", associativity = RIGHT_ASSOCIATIVE, precedence = 2 });
             Operators.Add("%", new Operator { operatorCode = "%", associativity = LEFT_ASSOCIATIVE, precedence = 1 });
@@ -34,7 +40,7 @@ namespace InfixToRPN
             return Operators.ContainsKey(token);
         }
 
-        private static string GetRPN(string infixString)
+        public static string GetRPN(string infixString)
         {
             try
             {
