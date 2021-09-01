@@ -43,66 +43,82 @@ namespace wfExpresionesArbolBinario
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string expresion = txbExpresion.Text;
-            string auxChar = "";
-            List<char> expresionValidada = new List<char>();
-
-            int i = 0;
-            foreach (char c in expresion)
+            string Expresion = ValidarInput(txbExpresion.Text);
+            if (Expresion.Equals(""))
             {
-                // No se aceptan espacios
-                if (c.Equals(' '))
-                {
-                    i++;
-                    continue;
-                }
-                // Operadores que no sean operadores o números no se aceptan
-                if (!operadores.Contains(c) && !numeros.Contains(c))
-                {
-                    System.Windows.Forms.MessageBox.Show("Input inválido. Operadores que no sean operadores o números no se aceptan.");
-                    txbExpresion.Clear();
-                }
-                // La expresión no puede comenzar con un operador
-                if (i == 0 && operadores.Contains(c) && c != '√')
-                {
-                    System.Windows.Forms.MessageBox.Show("Input inválido. La expresión no puede comenzar con un operador.");
-                    txbExpresion.Clear();
-                }
-                // A menos que sea una raíz cuadrada
-                else if (i == 0 && c == '√')
-                {
-                    auxChar = "op";
-                }
-                // La expresión no puede terminar con un operador
-                else if (i == expresion.Length - 1 && operadores.Contains(c))
-                {
-                    System.Windows.Forms.MessageBox.Show("Input inválido. La expresión no puede terminar con un operador.");
-                    txbExpresion.Clear();
-                }
-                // Dos operadores no pueden estar uno al lado del otro, excepto por la raíz cuadrada (el 2 es implícito)
-                if (auxChar.Equals("op") && operadores.Contains(c))
-                {
-                    if (c == '√')
-                    {
-                        expresionValidada.Add(c);
-                    } else
-                    {
-                        System.Windows.Forms.MessageBox.Show("Input inválido. Dos operadores no pueden estar uno al lado del otro.");
-                        txbExpresion.Clear();
-                    }
-                    // Se lleva si el caracter de la iteración anterior es número u operador
-                    if (numeros.Contains(c))
-                    {
-                        auxChar = "num";
-                    } else if (operadores.Contains(c))
-                    {
-                        auxChar = "op";
-                    }
-                }
-                expresionValidada.Add(c);
-                i++;
+                System.Windows.Forms.MessageBox.Show("Error en el input.");
+            } else
+            {
+                System.Windows.Forms.MessageBox.Show(Expresion);
             }
-            System.Windows.Forms.MessageBox.Show(new string(expresionValidada.ToArray()));
+            
+        }
+
+        private string ValidarInput(string expresion)
+        {
+            if (expresion.Equals(""))
+            {
+                return "";
+            } else
+            {
+                string AuxChar = "";
+                List<char> ExpresionValidada = new List<char>();
+
+                int i = 0;
+                foreach (char c in expresion)
+                {
+                    // No se aceptan espacios
+                    if (c.Equals(' '))
+                    {
+                        i++;
+                        continue;
+                    }
+                    // Operadores que no sean operadores o números no se aceptan
+                    if (!operadores.Contains(c) && !numeros.Contains(c))
+                    {
+                        return "";
+                    }
+                    // La expresión no puede comenzar con un operador
+                    if (i == 0 && operadores.Contains(c) && c != '√')
+                    {
+                        return "";
+                    }
+                    // A menos que sea una raíz cuadrada
+                    else if (i == 0 && c == '√')
+                    {
+                        AuxChar = "op";
+                    }
+                    // La expresión no puede terminar con un operador
+                    else if (i == expresion.Length - 1 && operadores.Contains(c))
+                    {
+                        return "";
+                    }
+                    // Dos operadores no pueden estar uno al lado del otro, excepto por la raíz cuadrada (el 2 es implícito)
+                    if (AuxChar.Equals("op") && operadores.Contains(c))
+                    {
+                        if (c == '√')
+                        {
+                            ExpresionValidada.Add(c);
+                        }
+                        else
+                        {
+                            return "";
+                        }
+                        // Se lleva si el caracter de la iteración anterior es número u operador
+                        if (numeros.Contains(c))
+                        {
+                            AuxChar = "num";
+                        }
+                        else if (operadores.Contains(c))
+                        {
+                            AuxChar = "op";
+                        }
+                    }
+                    ExpresionValidada.Add(c);
+                    i++;
+                }
+                return new string(ExpresionValidada.ToArray());
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
