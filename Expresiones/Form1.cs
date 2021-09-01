@@ -36,6 +36,7 @@ namespace wfExpresionesArbolBinario
     {
         private char[] operadores = { '+', '-', '*', '/', '^', '√' };
         private char[] numeros = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
+        private bool initbool = false;
 
         public Form1()
         {
@@ -50,13 +51,13 @@ namespace wfExpresionesArbolBinario
                 System.Windows.Forms.MessageBox.Show("Input inválido. Intente de nuevo.");
             } else
             {
-                //ShuntingYard ExpresionRPN = new ShuntingYard(Expresion);
+                /*if (!initbool)
+                    ShuntingYard.InitializeOperators();
+                    initbool = true;*/
                 //System.Windows.Forms.MessageBox.Show(ShuntingYard.GetRPN(Expresion));
-                ShuntingYard.InitializeOperators();
-                System.Windows.Forms.MessageBox.Show(ShuntingYard.GetRPN(Expresion));
-                //System.Windows.Forms.MessageBox.Show(Expresion);
+                //System.Windows.Forms.MessageBox.Show(ShuntingYard.GetRPN(txbExpresion.Text));
+                System.Windows.Forms.MessageBox.Show(Expresion);
             }
-
         }
 
         private string ValidarInput(string expresion)
@@ -67,7 +68,7 @@ namespace wfExpresionesArbolBinario
             } else
             {
                 string AuxChar = "";
-                List<char> ExpresionValidada = new List<char>();
+                List<string> ExpresionValidada = new List<string>();
 
                 int i = 0;
                 foreach (char c in expresion)
@@ -103,13 +104,23 @@ namespace wfExpresionesArbolBinario
                     {
                         if (c == '√')
                         {
-                            ExpresionValidada.Add('2');
+                            ExpresionValidada.Add("2");
                         }
                         else
                         {
                             return "";
                         }
                     }
+
+                    if (AuxChar == "num" && numeros.Contains(c))
+                    {
+                        ExpresionValidada.Insert(ExpresionValidada.Count - 1, ExpresionValidada.ElementAt(ExpresionValidada.Count - 1) + c.ToString());
+                        ExpresionValidada.RemoveAt(ExpresionValidada.Count - 1);
+                        i++;
+                        AuxChar = "num";
+                        continue;
+                    }
+
                     // Se lleva si el caracter de la iteración anterior es número u operador
                     if (numeros.Contains(c))
                     {
@@ -119,10 +130,11 @@ namespace wfExpresionesArbolBinario
                     {
                         AuxChar = "op";
                     }
-                    ExpresionValidada.Add(c);
+
+                    ExpresionValidada.Add(c.ToString());
                     i++;
                 }
-                return new string(ExpresionValidada.ToArray());
+                return string.Join(" ", ExpresionValidada);
             }
         }
 

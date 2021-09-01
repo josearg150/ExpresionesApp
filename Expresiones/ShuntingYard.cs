@@ -28,7 +28,7 @@ namespace InfixToRPN
         public static void InitializeOperators()
         {
             Operators.Add("^", new Operator { operatorCode = "^", associativity = RIGHT_ASSOCIATIVE, precedence = 2 });
-            Operators.Add("%", new Operator { operatorCode = "%", associativity = LEFT_ASSOCIATIVE, precedence = 1 });
+            Operators.Add("√", new Operator { operatorCode = "√", associativity = LEFT_ASSOCIATIVE, precedence = 2 });
             Operators.Add("/", new Operator { operatorCode = "/", associativity = LEFT_ASSOCIATIVE, precedence = 1 });
             Operators.Add("*", new Operator { operatorCode = "*", associativity = LEFT_ASSOCIATIVE, precedence = 1 });
             Operators.Add("-", new Operator { operatorCode = "-", associativity = LEFT_ASSOCIATIVE, precedence = 0 });
@@ -75,7 +75,7 @@ namespace InfixToRPN
                             }
                             else
                             {
-                                outputQueue.Append(operatorStack.Pop() + " ");
+                                outputQueue.Append(operatorStack.Pop());
                             }
                         }
 
@@ -104,7 +104,7 @@ namespace InfixToRPN
                             if ((o1.associativity == LEFT_ASSOCIATIVE && o1.precedence <= o2.precedence) || (o1.associativity == RIGHT_ASSOCIATIVE && o1.precedence < o2.precedence))
                             {
                                 //pop o2 off the operator stack, onto the output queue      
-                                outputQueue.Append(operatorStack.Pop() + " ");
+                                outputQueue.Append(operatorStack.Pop());
                                 continue;
                             }
                             break;
@@ -116,7 +116,7 @@ namespace InfixToRPN
                     else
                     {
                         //add it to the output queue
-                        outputQueue.Append(token + " ");
+                        outputQueue.Append(token);
                     }
                 }
 
@@ -135,7 +135,7 @@ namespace InfixToRPN
                         if (isOperator(operatorStack.Peek()))
                         {
                             //Pop the operator onto the output queue.
-                            outputQueue.Append(operatorStack.Pop() + " ");
+                            outputQueue.Append(operatorStack.Pop());
                         }
                         else
                         {
