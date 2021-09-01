@@ -1,4 +1,5 @@
-﻿using InfixToRPN;
+﻿using Expresiones;
+using InfixToRPN;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,9 +35,9 @@ namespace wfExpresionesArbolBinario
 {
     public partial class Form1 : Form
     {
-        private char[] operadores = { '+', '-', '*', '/', '^', '√' };
-        private char[] numeros = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
-        private bool initbool = false;
+        private char[] Operadores = { '+', '-', '*', '/', '^', '√' };
+        private char[] Numeros = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
+        private bool OperadoresShuntingInicializados = false;
 
         public Form1()
         {
@@ -51,10 +52,13 @@ namespace wfExpresionesArbolBinario
                 System.Windows.Forms.MessageBox.Show("Input inválido. Intente de nuevo.");
             } else
             {
-                if (!initbool)
+                if (!OperadoresShuntingInicializados)
                     ShuntingYard.InitializeOperators();
-                    initbool = true;
-                System.Windows.Forms.MessageBox.Show(ShuntingYard.GetRPN(Expresion));
+                    OperadoresShuntingInicializados = true;
+                string ExpresionRPN = ShuntingYard.GetRPN(Expresion);
+                System.Windows.Forms.MessageBox.Show(ExpresionRPN);
+                List<string> ExpresionRPNArreglo = new List<string>(ExpresionRPN.Split(' ').ToList());
+                ExpresionRPNArreglo.RemoveAt(ExpresionRPNArreglo.Count - 1);
                 //System.Windows.Forms.MessageBox.Show(ShuntingYard.GetRPN(txbExpresion.Text));
                 //System.Windows.Forms.MessageBox.Show(Expresion);
             }
@@ -80,12 +84,12 @@ namespace wfExpresionesArbolBinario
                         continue;
                     }
                     // Operadores que no sean operadores o números no se aceptan
-                    if (!operadores.Contains(c) && !numeros.Contains(c))
+                    if (!Operadores.Contains(c) && !Numeros.Contains(c))
                     {
                         return "";
                     }
                     // La expresión no puede comenzar con un operador
-                    if (i == 0 && operadores.Contains(c) && c != '√')
+                    if (i == 0 && Operadores.Contains(c) && c != '√')
                     {
                         return "";
                     }
@@ -95,12 +99,12 @@ namespace wfExpresionesArbolBinario
                         AuxChar = "op";
                     }
                     // La expresión no puede terminar con un operador
-                    else if (i == expresion.Length - 1 && operadores.Contains(c))
+                    else if (i == expresion.Length - 1 && Operadores.Contains(c))
                     {
                         return "";
                     }
                     // Dos operadores no pueden estar uno al lado del otro, excepto por la raíz cuadrada (el 2 es implícito)
-                    if (AuxChar.Equals("op") && operadores.Contains(c))
+                    if (AuxChar.Equals("op") && Operadores.Contains(c))
                     {
                         if (c == '√')
                         {
@@ -112,7 +116,7 @@ namespace wfExpresionesArbolBinario
                         }
                     }
 
-                    if (AuxChar == "num" && numeros.Contains(c))
+                    if (AuxChar == "num" && Numeros.Contains(c))
                     {
                         ExpresionValidada.Insert(ExpresionValidada.Count - 1, ExpresionValidada.ElementAt(ExpresionValidada.Count - 1) + c.ToString());
                         ExpresionValidada.RemoveAt(ExpresionValidada.Count - 1);
@@ -122,11 +126,11 @@ namespace wfExpresionesArbolBinario
                     }
 
                     // Se lleva si el caracter de la iteración anterior es número u operador
-                    if (numeros.Contains(c))
+                    if (Numeros.Contains(c))
                     {
                         AuxChar = "num";
                     }
-                    else if (operadores.Contains(c))
+                    else if (Operadores.Contains(c))
                     {
                         AuxChar = "op";
                     }
@@ -136,6 +140,11 @@ namespace wfExpresionesArbolBinario
                 }
                 return string.Join(" ", ExpresionValidada);
             }
+        }
+
+        private Arbol ConvertirExpPostfijaAArbol(List<string> expPostfija)
+        {
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
