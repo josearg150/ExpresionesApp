@@ -1,0 +1,10 @@
+D:\7 Semestre\Automatas 2\Proyectos\AppExpresiones\Expresiones\Expresiones\bin\Debug\Expresiones.exe.config
+D:\7 Semestre\Automatas 2\Proyectos\AppExpresiones\Expresiones\Expresiones\bin\Debug\Expresiones.exe
+D:\7 Semestre\Automatas 2\Proyectos\AppExpresiones\Expresiones\Expresiones\bin\Debug\Expresiones.pdb
+D:\7 Semestre\Automatas 2\Proyectos\AppExpresiones\Expresiones\Expresiones\obj\Debug\Expresiones.csproj.AssemblyReference.cache
+D:\7 Semestre\Automatas 2\Proyectos\AppExpresiones\Expresiones\Expresiones\obj\Debug\Expresiones.Form1.resources
+D:\7 Semestre\Automatas 2\Proyectos\AppExpresiones\Expresiones\Expresiones\obj\Debug\Expresiones.Properties.Resources.resources
+D:\7 Semestre\Automatas 2\Proyectos\AppExpresiones\Expresiones\Expresiones\obj\Debug\Expresiones.csproj.GenerateResource.cache
+D:\7 Semestre\Automatas 2\Proyectos\AppExpresiones\Expresiones\Expresiones\obj\Debug\Expresiones.csproj.CoreCompileInputs.cache
+D:\7 Semestre\Automatas 2\Proyectos\AppExpresiones\Expresiones\Expresiones\obj\Debug\Expresiones.exe
+D:\7 Semestre\Automatas 2\Proyectos\AppExpresiones\Expresiones\Expresiones\obj\Debug\Expresiones.pdb

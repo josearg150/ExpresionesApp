@@ -82,6 +82,12 @@ namespace Expresiones
         {
             caracter = _caracter;
         }
+
+        public char obtenerCaracter()
+        {
+            return caracter;
+        }
+
         public Nodo insertar(Nodo a, Nodo b)
         {
             //Comparamos si su lado izquierdo para saber si esta vacio 
