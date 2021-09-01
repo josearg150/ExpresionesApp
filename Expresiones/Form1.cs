@@ -46,7 +46,7 @@ namespace wfExpresionesArbolBinario
             string Expresion = ValidarInput(txbExpresion.Text);
             if (Expresion.Equals(""))
             {
-                System.Windows.Forms.MessageBox.Show("Error en el input.");
+                System.Windows.Forms.MessageBox.Show("Input inválido. Intente de nuevo.");
             } else
             {
                 System.Windows.Forms.MessageBox.Show(Expresion);
@@ -98,7 +98,7 @@ namespace wfExpresionesArbolBinario
                     {
                         if (c == '√')
                         {
-                            ExpresionValidada.Add(c);
+                            ExpresionValidada.Add('2');
                         }
                         else
                         {
