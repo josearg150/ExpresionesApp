@@ -144,7 +144,17 @@ namespace wfExpresionesArbolBinario
 
         private Arbol ConvertirExpPostfijaAArbol(List<string> expPostfija)
         {
+            Stack<string> Punteros = new Stack<string>();
+            foreach (string c in expPostfija)
+            {
+                if (Numeros.Contains(c[0]))
+                {
 
+                } else if (Operadores.Contains(c[0]))
+                {
+
+                }
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
