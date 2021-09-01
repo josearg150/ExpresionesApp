@@ -1,5 +1,5 @@
 ﻿
-namespace Expresiones
+namespace wfExpresionesArbolBinario
 {
     partial class Form1
     {
@@ -29,55 +29,34 @@ namespace Expresiones
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblEntrada = new System.Windows.Forms.Label();
-            this.tbExpresion = new System.Windows.Forms.TextBox();
-            this.btnPruebas = new System.Windows.Forms.Button();
-            this.lblPruebas = new System.Windows.Forms.Label();
+            this.lblExpresion = new System.Windows.Forms.Label();
+            this.txbExpresion = new System.Windows.Forms.TextBox();
             this.btnAceptar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // lblEntrada
+            // lblExpresion
             // 
-            this.lblEntrada.AutoSize = true;
-            this.lblEntrada.Location = new System.Drawing.Point(22, 22);
-            this.lblEntrada.Name = "lblEntrada";
-            this.lblEntrada.Size = new System.Drawing.Size(111, 13);
-            this.lblEntrada.TabIndex = 0;
-            this.lblEntrada.Text = "Ingresa una expresion";
-            this.lblEntrada.Click += new System.EventHandler(this.label1_Click);
+            this.lblExpresion.AutoSize = true;
+            this.lblExpresion.Location = new System.Drawing.Point(32, 28);
+            this.lblExpresion.Name = "lblExpresion";
+            this.lblExpresion.Size = new System.Drawing.Size(103, 13);
+            this.lblExpresion.TabIndex = 0;
+            this.lblExpresion.Text = "Expresión a evaluar:";
             // 
-            // tbExpresion
+            // txbExpresion
             // 
-            this.tbExpresion.Location = new System.Drawing.Point(25, 55);
-            this.tbExpresion.Name = "tbExpresion";
-            this.tbExpresion.Size = new System.Drawing.Size(100, 20);
-            this.tbExpresion.TabIndex = 1;
-            // 
-            // btnPruebas
-            // 
-            this.btnPruebas.Location = new System.Drawing.Point(439, 55);
-            this.btnPruebas.Name = "btnPruebas";
-            this.btnPruebas.Size = new System.Drawing.Size(75, 23);
-            this.btnPruebas.TabIndex = 2;
-            this.btnPruebas.Text = "button1";
-            this.btnPruebas.UseVisualStyleBackColor = true;
-            this.btnPruebas.Click += new System.EventHandler(this.btnPruebas_Click);
-            // 
-            // lblPruebas
-            // 
-            this.lblPruebas.AutoSize = true;
-            this.lblPruebas.Location = new System.Drawing.Point(439, 22);
-            this.lblPruebas.Name = "lblPruebas";
-            this.lblPruebas.Size = new System.Drawing.Size(35, 13);
-            this.lblPruebas.TabIndex = 3;
-            this.lblPruebas.Text = "label1";
+            this.txbExpresion.Location = new System.Drawing.Point(35, 60);
+            this.txbExpresion.Name = "txbExpresion";
+            this.txbExpresion.Size = new System.Drawing.Size(202, 20);
+            this.txbExpresion.TabIndex = 1;
+            this.txbExpresion.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txbExpresion_KeyUp);
             // 
             // btnAceptar
             // 
-            this.btnAceptar.Location = new System.Drawing.Point(145, 55);
+            this.btnAceptar.Location = new System.Drawing.Point(253, 60);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(75, 23);
-            this.btnAceptar.TabIndex = 4;
+            this.btnAceptar.TabIndex = 2;
             this.btnAceptar.Text = "Aceptar";
             this.btnAceptar.UseVisualStyleBackColor = true;
             this.btnAceptar.Click += new System.EventHandler(this.button1_Click);
@@ -88,12 +67,11 @@ namespace Expresiones
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.btnAceptar);
-            this.Controls.Add(this.lblPruebas);
-            this.Controls.Add(this.btnPruebas);
-            this.Controls.Add(this.tbExpresion);
-            this.Controls.Add(this.lblEntrada);
+            this.Controls.Add(this.txbExpresion);
+            this.Controls.Add(this.lblExpresion);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -101,10 +79,8 @@ namespace Expresiones
 
         #endregion
 
-        private System.Windows.Forms.Label lblEntrada;
-        private System.Windows.Forms.TextBox tbExpresion;
-        private System.Windows.Forms.Button btnPruebas;
-        private System.Windows.Forms.Label lblPruebas;
+        private System.Windows.Forms.Label lblExpresion;
+        private System.Windows.Forms.TextBox txbExpresion;
         private System.Windows.Forms.Button btnAceptar;
     }
 }
