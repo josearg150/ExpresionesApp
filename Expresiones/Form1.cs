@@ -31,6 +31,7 @@ using System.Windows.Forms;
 /// <Autor>
 /// Jose angel rocha garcia 
 /// Jose luis carreon reyes
+/// osvaldo santacruz 
 /// </Autor>
 /// 
 /// <FechaCreacion>
