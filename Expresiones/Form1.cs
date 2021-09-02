@@ -225,5 +225,20 @@ namespace wfExpresionesArbolBinario
                 button1_Click(this, new EventArgs());
             }
         }
+
+        private void salirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Application.Exit();
+        }
+
+        private void informaciónToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.MessageBox.Show("Restricciones:\n" +
+                                                 "1. No se permite introducir operadores al principio de la expresión (excepto la raíz cuadrada).\n" +
+                                                 "2. No se permite introducir operadores al final de la expresión.\n" +
+                                                 "3. No se permite introducir caracteres que no sean operadores o números.\n" +
+                                                 "4. Dos operadores no pueden colocarse consecutivamente, excepto por la raíz cuadrada.\n" +
+                                                 "5. Todo espacio se ignora.");
+        }
     }
 }
