@@ -1,10 +1,15 @@
-﻿using Expresiones;
+﻿using DotNetGraph;
+using DotNetGraph.Edge;
+using DotNetGraph.Extensions;
+using DotNetGraph.Node;
+using Expresiones;
 using InfixToRPN;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,6 +64,7 @@ namespace wfExpresionesArbolBinario
                 System.Windows.Forms.MessageBox.Show(ExpresionRPN);
                 List<string> ExpresionRPNArreglo = new List<string>(ExpresionRPN.Split(' ').ToList());
                 ExpresionRPNArreglo.RemoveAt(ExpresionRPNArreglo.Count - 1);
+                Graficar(ExpresionRPNArreglo);
                 //System.Windows.Forms.MessageBox.Show(ShuntingYard.GetRPN(txbExpresion.Text));
                 //System.Windows.Forms.MessageBox.Show(Expresion);
             }
@@ -142,19 +148,68 @@ namespace wfExpresionesArbolBinario
             }
         }
 
-        private Arbol ConvertirExpPostfijaAArbol(List<string> expPostfija)
+        private void Graficar(List<string> expPostfija)
         {
-            Stack<string> Punteros = new Stack<string>();
+            var Grafica = new DotGraph("Árbol de expresiones");
+            Stack<DotNode> Pila = new Stack<DotNode>();
             foreach (string c in expPostfija)
             {
                 if (Numeros.Contains(c[0]))
                 {
-
+                    var Nodo = new DotNode(c)
+                    {
+                        Shape = DotNodeShape.Circle,
+                        Label = c,
+                        FillColor = Color.Coral,
+                        FontColor = Color.Black,
+                        Style = DotNodeStyle.Dotted,
+                        Width = 0.5f,
+                        Height = 0.5f,
+                        PenWidth = 1.5f
+                    };
+                    Pila.Push(Nodo);
                 } else if (Operadores.Contains(c[0]))
                 {
-
+                    var T1 = Pila.Pop();
+                    var T2 = Pila.Pop();
+                    var Nodo = new DotNode(c)
+                    {
+                        Shape = DotNodeShape.Circle,
+                        Label = c,
+                        FillColor = Color.Coral,
+                        FontColor = Color.Black,
+                        Style = DotNodeStyle.Dotted,
+                        Width = 0.5f,
+                        Height = 0.5f,
+                        PenWidth = 1.5f
+                    };
+                    var Linea = new DotEdge(Nodo, T1)
+                    {
+                        ArrowHead = DotEdgeArrowType.Box,
+                        ArrowTail = DotEdgeArrowType.Diamond,
+                        Color = Color.Red,
+                        FontColor = Color.Black,
+                        Label = "",
+                        Style = DotEdgeStyle.Dashed,
+                        PenWidth = 1.5f
+                    };
+                    Grafica.Elements.Add(Linea);
+                    var Linea2 = new DotEdge(Nodo, T2)
+                    {
+                        ArrowHead = DotEdgeArrowType.Box,
+                        ArrowTail = DotEdgeArrowType.Diamond,
+                        Color = Color.Red,
+                        FontColor = Color.Black,
+                        Label = "",
+                        Style = DotEdgeStyle.Dashed,
+                        PenWidth = 1.5f
+                    };
+                    Grafica.Elements.Add(Linea2);
+                    Pila.Push(Nodo);
                 }
             }
+            var dot = Grafica.Compile(true);
+            File.WriteAllText("myFile.dot", dot);
         }
 
         private void Form1_Load(object sender, EventArgs e)
