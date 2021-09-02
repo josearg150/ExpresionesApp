@@ -1,18 +1,8 @@
-﻿using DotNetGraph;
-using DotNetGraph.Edge;
-using DotNetGraph.Extensions;
-using DotNetGraph.Node;
-using Expresiones;
+﻿using Expresiones;
 using InfixToRPN;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 /// <summary>
@@ -51,10 +41,10 @@ namespace wfExpresionesArbolBinario
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Not_Polaca expPosfija = new Not_Polaca();
+            /*Not_Polaca expPosfija = new Not_Polaca();
             string Expresion = expPosfija.convertir_pos(txbExpresion.Text).ToString();
-            System.Windows.Forms.MessageBox.Show(Expresion);
-            /*string Expresion = ValidarInput(txbExpresion.Text);
+            System.Windows.Forms.MessageBox.Show(Expresion);*/
+            string Expresion = ValidarInput(txbExpresion.Text);
             if (Expresion.Equals(""))
             {
                 System.Windows.Forms.MessageBox.Show("Input inválido. Intente de nuevo.");
@@ -67,10 +57,8 @@ namespace wfExpresionesArbolBinario
                 System.Windows.Forms.MessageBox.Show(ExpresionRPN);
                 List<string> ExpresionRPNArreglo = new List<string>(ExpresionRPN.Split(' ').ToList());
                 ExpresionRPNArreglo.RemoveAt(ExpresionRPNArreglo.Count - 1);
-                Graficar(ExpresionRPNArreglo);*/
-            //System.Windows.Forms.MessageBox.Show(ShuntingYard.GetRPN(txbExpresion.Text));
-            //System.Windows.Forms.MessageBox.Show(Expresion);
-            //}
+                Graficar(ExpresionRPNArreglo);
+            }
         }
 
         private string ValidarInput(string expresion)
@@ -153,66 +141,39 @@ namespace wfExpresionesArbolBinario
 
         private void Graficar(List<string> expPostfija)
         {
-            var Grafica = new DotGraph("Árbol de expresiones");
-            Stack<DotNode> Pila = new Stack<DotNode>();
+            //create a form 
+            System.Windows.Forms.Form Formulario = new System.Windows.Forms.Form();
+            //create a viewer object 
+            Microsoft.Msagl.GraphViewerGdi.GViewer Visor = new Microsoft.Msagl.GraphViewerGdi.GViewer();
+            //create a graph object 
+            Microsoft.Msagl.Drawing.Graph Grafica = new Microsoft.Msagl.Drawing.Graph("graph");
+            Stack<Microsoft.Msagl.Drawing.Node> Pila = new Stack<Microsoft.Msagl.Drawing.Node>();
             foreach (string c in expPostfija)
             {
                 if (Numeros.Contains(c[0]))
                 {
-                    var Nodo = new DotNode(c)
-                    {
-                        Shape = DotNodeShape.Circle,
-                        Label = c,
-                        FillColor = Color.Coral,
-                        FontColor = Color.Black,
-                        Style = DotNodeStyle.Dotted,
-                        Width = 0.5f,
-                        Height = 0.5f,
-                        PenWidth = 1.5f
-                    };
+                    var Nodo = Grafica.AddNode(c);
                     Pila.Push(Nodo);
-                } else if (Operadores.Contains(c[0]))
+                }
+                else if (Operadores.Contains(c[0]))
                 {
                     var T1 = Pila.Pop();
                     var T2 = Pila.Pop();
-                    var Nodo = new DotNode(c)
-                    {
-                        Shape = DotNodeShape.Circle,
-                        Label = c,
-                        FillColor = Color.Coral,
-                        FontColor = Color.Black,
-                        Style = DotNodeStyle.Dotted,
-                        Width = 0.5f,
-                        Height = 0.5f,
-                        PenWidth = 1.5f
-                    };
-                    var Linea = new DotEdge(Nodo, T1)
-                    {
-                        ArrowHead = DotEdgeArrowType.Box,
-                        ArrowTail = DotEdgeArrowType.Diamond,
-                        Color = Color.Red,
-                        FontColor = Color.Black,
-                        Label = "",
-                        Style = DotEdgeStyle.Dashed,
-                        PenWidth = 1.5f
-                    };
-                    Grafica.Elements.Add(Linea);
-                    var Linea2 = new DotEdge(Nodo, T2)
-                    {
-                        ArrowHead = DotEdgeArrowType.Box,
-                        ArrowTail = DotEdgeArrowType.Diamond,
-                        Color = Color.Red,
-                        FontColor = Color.Black,
-                        Label = "",
-                        Style = DotEdgeStyle.Dashed,
-                        PenWidth = 1.5f
-                    };
-                    Grafica.Elements.Add(Linea2);
+                    var Nodo = Grafica.AddNode(c);
+                    Grafica.AddEdge(Nodo.Id, "", T1.Id);
+                    Grafica.AddEdge(Nodo.Id, "", T2.Id);
                     Pila.Push(Nodo);
                 }
             }
-            var dot = Grafica.Compile(true);
-            File.WriteAllText("myFile.dot", dot);
+            //bind the graph to the viewer 
+            Visor.Graph = Grafica;
+            //associate the viewer with the form 
+            Formulario.SuspendLayout();
+            Visor.Dock = System.Windows.Forms.DockStyle.Fill;
+            Formulario.Controls.Add(Visor);
+            Formulario.ResumeLayout();
+            //show the form 
+            Formulario.ShowDialog();
         }
 
         private void Form1_Load(object sender, EventArgs e)

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace InfixToRPN
 {
@@ -15,12 +14,6 @@ namespace InfixToRPN
 
     class ShuntingYard
     {
-        /*private string infixString;
-        public ShuntingYard(string infixString)
-        {
-            this.infixString = infixString;
-        }*/
-
         const int LEFT_ASSOCIATIVE = 0;
         const int RIGHT_ASSOCIATIVE = 1;
         static Dictionary<string, Operator> Operators = new Dictionary<string, Operator>();
