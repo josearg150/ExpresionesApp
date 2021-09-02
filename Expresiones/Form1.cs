@@ -51,7 +51,10 @@ namespace wfExpresionesArbolBinario
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string Expresion = ValidarInput(txbExpresion.Text);
+            Not_Polaca expPosfija = new Not_Polaca();
+            string Expresion = expPosfija.convertir_pos(txbExpresion.Text).ToString();
+            System.Windows.Forms.MessageBox.Show(Expresion);
+            /*string Expresion = ValidarInput(txbExpresion.Text);
             if (Expresion.Equals(""))
             {
                 System.Windows.Forms.MessageBox.Show("Input inválido. Intente de nuevo.");
@@ -64,10 +67,10 @@ namespace wfExpresionesArbolBinario
                 System.Windows.Forms.MessageBox.Show(ExpresionRPN);
                 List<string> ExpresionRPNArreglo = new List<string>(ExpresionRPN.Split(' ').ToList());
                 ExpresionRPNArreglo.RemoveAt(ExpresionRPNArreglo.Count - 1);
-                Graficar(ExpresionRPNArreglo);
-                //System.Windows.Forms.MessageBox.Show(ShuntingYard.GetRPN(txbExpresion.Text));
-                //System.Windows.Forms.MessageBox.Show(Expresion);
-            }
+                Graficar(ExpresionRPNArreglo);*/
+            //System.Windows.Forms.MessageBox.Show(ShuntingYard.GetRPN(txbExpresion.Text));
+            //System.Windows.Forms.MessageBox.Show(Expresion);
+            //}
         }
 
         private string ValidarInput(string expresion)
