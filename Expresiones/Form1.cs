@@ -204,5 +204,10 @@ namespace wfExpresionesArbolBinario
                                                  "4. Dos operadores no pueden colocarse consecutivamente, excepto por la raíz cuadrada.\n" +
                                                  "5. Todo espacio se ignora.");
         }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            txbExpresion.Text = "";
+        }
     }
 }
