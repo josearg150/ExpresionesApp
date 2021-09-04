@@ -142,26 +142,30 @@ namespace wfExpresionesArbolBinario
             System.Windows.Forms.Form Formulario = new System.Windows.Forms.Form();
             //create a viewer object 
             Microsoft.Msagl.GraphViewerGdi.GViewer Visor = new Microsoft.Msagl.GraphViewerGdi.GViewer();
-            //create a graph object 
-            Microsoft.Msagl.Drawing.Graph Grafica = new Microsoft.Msagl.Drawing.Graph("graph");
-            Stack<Microsoft.Msagl.Drawing.Node> Pila = new Stack<Microsoft.Msagl.Drawing.Node>();
+            Stack<Nodo> Pila = new Stack<Nodo>();
+            Arbol Arbol;
             foreach (string c in expPostfija)
             {
                 if (Numeros.Contains(c[0]))
                 {
-                    var Nodo = Grafica.AddNode(c);
+                    Nodo Nodo = new Nodo(c);
                     Pila.Push(Nodo);
                 }
                 else if (Operadores.Contains(c[0]))
                 {
-                    var T1 = Pila.Pop();
-                    var T2 = Pila.Pop();
-                    var Nodo = Grafica.AddNode(c);
-                    Grafica.AddEdge(Nodo.Id, "", T1.Id);
-                    Grafica.AddEdge(Nodo.Id, "", T2.Id);
+                    Nodo T1 = Pila.Pop();
+                    Nodo T2 = Pila.Pop();
+                    Nodo Nodo = new Nodo(c);
+                    Nodo.Izquierda = T1;
+                    Nodo.Derecha = T2;
                     Pila.Push(Nodo);
                 }
             }
+            Arbol = new Arbol(Pila.Pop());
+            
+            //create a graph object 
+            Microsoft.Msagl.Drawing.Graph Grafica = Arbol.TransformarAGrafica(Arbol.Raiz);
+
             //bind the graph to the viewer 
             Visor.Graph = Grafica;
             //associate the viewer with the form 

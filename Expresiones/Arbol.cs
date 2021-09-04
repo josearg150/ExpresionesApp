@@ -27,69 +27,29 @@ namespace Expresiones
     /// </FechaCreacion>
     class Arbol
     {
-        //***************************************
-        //Variables locales                     
-        //***************************************
-        #region Variables Locales 
-        Nodo raiz;
-        #endregion
+        public Nodo Raiz { set; get; }
+        public Microsoft.Msagl.Drawing.Graph Grafica;
 
-        #region Constructores 
-        //Constructor sin parametros 
-        public Arbol()
+        public Arbol(Nodo Raiz)
         {
-            raiz = null;
+            this.Raiz = Raiz;
+            this.Grafica = new Microsoft.Msagl.Drawing.Graph("Grafica");
         }
-        #endregion
 
-        //***************************************
-        //Metodos 
-        //*********
-        #region Metodos
-
-        public void insertar(Nodo a, Nodo b)
-        {  ///Hay que cambiar el metodo para los operadores 
-            //Comparamos si su lado izquierdo para saber si esta vacio 
-            if (b.obtenerCaracter().CompareTo(a.obtenerCaracter()) < 0)
-            {
-                if (a.obtenerIzquierdo() == null)
-                {
-                    a.setIzquierdo(b);
-                }//Seguimos recorriendo hasta que tenga un lado izquierdo disponible 
-                else
-                {
-                    insertar(a.obtenerIzquierdo(), b);
-
-                }
-            }//Hacemos el mismo procedimiento en el lado derecho 
-            else if (b.obtenerCaracter().CompareTo(a.obtenerCaracter()) > 0)
-            {
-                if (a.obtenerDerecho() == null)
-                {
-                    a.setDerecho(b);
-
-                }
-                else
-                {
-                    insertar(a.obtenerDerecho(), b);
-                }
-            }
-
-            
-            
-        }
-        public void recorrerArbol(Nodo n)
+        public Microsoft.Msagl.Drawing.Graph TransformarAGrafica(Nodo Nodo)
         {
-            if (n != null)
+            var NodoGrafico = Grafica.AddNode(Nodo.Valor);
+            if (Nodo.Izquierda != null)
             {
-                recorrerArbol(n.obtenerIzquierdo());
-                //Aqui falta algo para mostrar por consola
-                recorrerArbol(n.obtenerDerecho());
-
+                Grafica.AddEdge(NodoGrafico.Id, "", Grafica.AddNode(Nodo.Izquierda.Valor).Id);
+                TransformarAGrafica(Nodo.Izquierda);
             }
+            if(Nodo.Derecha != null)
+            {
+                Grafica.AddEdge(NodoGrafico.Id, "", Grafica.AddNode(Nodo.Derecha.Valor).Id);
+                TransformarAGrafica(Nodo.Derecha);
+            }
+            return Grafica;
         }
-
-        #endregion
     }
-
 }
