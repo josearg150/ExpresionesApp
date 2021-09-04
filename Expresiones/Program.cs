@@ -5,13 +5,13 @@ using wfExpresionesArbolBinario;
 namespace Expresiones
 {
     /// <summary>
-    ///     Formulario principal para la interfaz de la aplicación.
+    ///     Punto de entrada para la aplicación.
     /// </summary>
     /// <Para>
-    ///     
+    ///     Iniciar la aplicación.
     /// </Para>
     /// <Supuestos>
-    ///     
+    ///     ...
     /// </Supuestos>
     /// <Autor>
     ///     José Luis Carreón Reyes

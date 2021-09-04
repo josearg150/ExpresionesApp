@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Expresiones
+﻿namespace Expresiones
 {
     /// <summary>
-    /// Clase arbol para generar un arbol binario 
-    /// Contiene el nodo padre
+    ///     Clase arbol para generar un arbol binario 
+    ///     Contiene el nodo raiz
     /// </summary>
     /// 
     /// <Para>
@@ -16,15 +10,16 @@ namespace Expresiones
     /// </Para>
     /// 
     /// <Supuestos>
+    ///     
     /// </Supuestos>
     /// 
     /// <Autor>
-    /// Jose angel rocha garcia 
-    /// Jose luis carreon reyes
+    ///     Jose angel rocha garcia 
+    ///     Jose luis carreon reyes
     /// </Autor>
     /// 
-    /// <FechaCreacion >
-    ///
+    /// <FechaCreacion>
+    ///     04/09/2021
     /// </FechaCreacion>
     class Arbol
     {
@@ -34,10 +29,16 @@ namespace Expresiones
         #region Variables  
         //con esta forma se crea la variable y sus metodos get y set 
         public Nodo Raiz { set; get; }
-        #endregion 
+        #endregion
+
+        //***************************************
+        //Constructores   
+        //***************************************
+        #region Constructores
         public Arbol(Nodo Raiz)
         {
             this.Raiz = Raiz;
         }
+        #endregion Constructores
     }
 }
