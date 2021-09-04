@@ -138,33 +138,53 @@ namespace wfExpresionesArbolBinario
 
         private void Graficar(List<string> expPostfija)
         {
+            int aux = 0;
             //create a form 
             System.Windows.Forms.Form Formulario = new System.Windows.Forms.Form();
             //create a viewer object 
             Microsoft.Msagl.GraphViewerGdi.GViewer Visor = new Microsoft.Msagl.GraphViewerGdi.GViewer();
-            Stack<Nodo> Pila = new Stack<Nodo>();
-            Arbol Arbol;
+            Stack<Microsoft.Msagl.Drawing.Node> PilaGrafica = new Stack<Microsoft.Msagl.Drawing.Node>();
+            Stack<Nodo> PilaArbol = new Stack<Nodo>();
+            Microsoft.Msagl.Drawing.Graph Grafica = new Microsoft.Msagl.Drawing.Graph("Grafica");
+            foreach (string c in expPostfija)
+            {
+                aux++;
+                if (Numeros.Contains(c[0]))
+                {
+                    var Nodo = Grafica.AddNode(aux.ToString());
+                    Nodo.LabelText = c;
+                    PilaGrafica.Push(Nodo);
+                }
+                else if (Operadores.Contains(c[0]))
+                {
+                    var T1 = PilaGrafica.Pop();
+                    var T2 = PilaGrafica.Pop();
+                    var Nodo = Grafica.AddNode(aux.ToString());
+                    Nodo.LabelText = c;
+                    Grafica.AddEdge(Nodo.Id, "", T1.Id);
+                    Grafica.AddEdge(Nodo.Id, "", T2.Id);
+                    PilaGrafica.Push(Nodo);
+                }
+            }
+
             foreach (string c in expPostfija)
             {
                 if (Numeros.Contains(c[0]))
                 {
                     Nodo Nodo = new Nodo(c);
-                    Pila.Push(Nodo);
+                    PilaArbol.Push(Nodo);
                 }
                 else if (Operadores.Contains(c[0]))
                 {
-                    Nodo T1 = Pila.Pop();
-                    Nodo T2 = Pila.Pop();
+                    Nodo T1 = PilaArbol.Pop();
+                    Nodo T2 = PilaArbol.Pop();
                     Nodo Nodo = new Nodo(c);
                     Nodo.Izquierda = T1;
                     Nodo.Derecha = T2;
-                    Pila.Push(Nodo);
+                    PilaArbol.Push(Nodo);
                 }
             }
-            Arbol = new Arbol(Pila.Pop());
-            
-            //create a graph object 
-            Microsoft.Msagl.Drawing.Graph Grafica = Arbol.TransformarAGrafica(Arbol.Raiz);
+            Arbol Arbol = new Arbol(PilaArbol.Pop());
 
             //bind the graph to the viewer 
             Visor.Graph = Grafica;
