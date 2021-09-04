@@ -41,9 +41,6 @@ namespace wfExpresionesArbolBinario
 
         private void button1_Click(object sender, EventArgs e)
         {
-            /*Not_Polaca expPosfija = new Not_Polaca();
-            string Expresion = expPosfija.convertir_pos(txbExpresion.Text).ToString();
-            System.Windows.Forms.MessageBox.Show(Expresion);*/
             string Expresion = ValidarInput(txbExpresion.Text);
             if (Expresion.Equals(""))
             {

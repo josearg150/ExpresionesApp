@@ -6,87 +6,76 @@ namespace Expresiones
 {
     class Not_Polaca
     {
-        public enum Simbolo { OPERANDO, PIZQ, PDER, SUMARES, MULTDIV, POW };
-        public StringBuilder convertir_pos(string Ei)
+        public enum Simbolo { SUMRES, MULTDIV, POW, PIZQ, PDER, OPERANDO };
+        public StringBuilder convertirPostFija(string expInfija)
         {
-            char[] Epos = new char[Ei.Length];
-            int tam = Ei.Length;
-            Stack<int> Pila = new Stack<int>(tam);
+            //Validar el espacio requerido, la exp posfija no requiere de parentesis
+            char[] Epos = new char[expInfija.Length];
+            Stack<int> pila = new Stack<int>(expInfija.Length);
+            //EL tamaño debera ser solo del numero de operadores en la expresion
+            //Mas los parentesis izquierdos
+            //Validar o analizar la entrada para obtener dicho valor
 
             int i, pos = 0;
-            for (i = 0; i < Epos.Length; i++)
+            for (i = 0; i < expInfija.Length; i++)
             {
-                char car = Ei[i];
-                Simbolo actual = Tipo_y_Presendecia(car);
+                char car = expInfija[i];
+                Simbolo actual = tipo_y_predencia(car);
                 switch (actual)
                 {
                     case Simbolo.OPERANDO: Epos[pos++] = car; break;
-                    case Simbolo.SUMARES:
-                        {
-                            while (!(Pila.Count == 0) && Tipo_y_Presendecia((char)Pila.ElementAt(Pila.Count - 1)) >= actual)
-                            {
-                                Epos[pos++] = (char)Pila.Pop();
-                            }
-                            Pila.Push(car);
-                        }
-                        break;
+                    case Simbolo.SUMRES:
                     case Simbolo.MULTDIV:
-                        {
-                            while (!(Pila.Count == 0) && Tipo_y_Presendecia((char)Pila.ElementAt(Pila.Count - 1)) >= actual)
-                            {
-                                Epos[pos++] = (char)Pila.Pop();
-                            }
-                            Pila.Push(car);
-                        }
-                        break;
                     case Simbolo.POW:
                         {
-                            while (!(Pila.Count == 0) && Tipo_y_Presendecia((char)Pila.ElementAt(Pila.Count - 1)) >= actual)
-                            {
-                                Epos[pos++] = (char)Pila.Pop();
-                            }
-                            Pila.Push(car);
+                            while (!(pila.Count == 0) && tipo_y_predencia((char)pila.ElementAt(pila.Count - 1)) >= actual)
+                                Epos[pos++] = (char)pila.Pop();
+                            pila.Push(car);
                         }
                         break;
-                    case Simbolo.PIZQ: Pila.Push(car); break;
+                    case Simbolo.PIZQ: pila.Push(car); break;
                     case Simbolo.PDER:
                         {
-                            char x = (char)Pila.Pop();
-                            while (Tipo_y_Presendecia(x) != Simbolo.PIZQ)
+                            char x = (char)pila.Pop();
+                            while (tipo_y_predencia(x) != Simbolo.PIZQ)
                             {
                                 Epos[pos++] = x;
-                                x = (char)Pila.Pop();
+                                x = (char)pila.Pop();
                             }
+
                         }
                         break;
+
                 }
+
             }
-            while (!(Pila.Count == 0))
+            while (!(pila.Count == 0))
             {
-                if (pos < Epos.Length)
-                    Epos[pos++] = (char)Pila.Pop();
+                if (pos < expInfija.Length)
+                    Epos[pos++] = (char)pila.Pop();
                 else
                     break;
             }
-            StringBuilder regresa = new StringBuilder(Ei);
+            StringBuilder regresa = new StringBuilder(expInfija);
 
             for (int r = 0; r < Epos.Length; r++)
                 regresa[r] = Epos[r];
             return regresa;
+            //Epos[pos] = '\0';
+            //return Epos;
         }
-        public Simbolo Tipo_y_Presendecia(char s)
+        public Simbolo tipo_y_predencia(char c)
         {
             Simbolo simbolo;
-            switch (s)
+            switch (c)
             {
-                case '+': simbolo = Simbolo.SUMARES; break;
-                case '-': simbolo = Simbolo.SUMARES; break;
-                case '*': simbolo = Simbolo.MULTDIV; break;
-                case '/': simbolo = Simbolo.MULTDIV; break;
+                case '+': case '-': simbolo = Simbolo.SUMRES; break;
+                case '*': case '/': simbolo = Simbolo.MULTDIV; break;
+                case '^': simbolo = Simbolo.POW; break;
                 case '(': simbolo = Simbolo.PIZQ; break;
                 case ')': simbolo = Simbolo.PDER; break;
-                case '^': simbolo = Simbolo.POW; break;
                 default: simbolo = Simbolo.OPERANDO; break;
+
             }
             return simbolo;
         }
