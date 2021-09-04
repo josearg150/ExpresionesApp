@@ -27,22 +27,33 @@ namespace Expresiones
     /// 30/08/2021
     /// </FechaCreacion>
     class Nodo
-    {
+    {   //***************************************
+        //Variables locales                     
+        //***************************************
+        #region variables 
+        //De esta forma creamos la variable y al mismo tiempo sus metodos set and get 
         public string Valor { set; get; }
         public Nodo Izquierda { set; get; }
         public Nodo Derecha { set; get; }
-
+        #endregion
+        //***************************************
+        //Constructores   
+        //***************************************
+        #region Constructores 
+        //Con parametros 
         public Nodo(string Valor)
         {
             this.Valor = Valor;
             this.Izquierda = null;
             this.Derecha = null;
         }
-
+        //vacio
         public Nodo()
         {
             this.Izquierda = null;
             this.Derecha = null;
         }
+        #endregion 
+
     }
 }
