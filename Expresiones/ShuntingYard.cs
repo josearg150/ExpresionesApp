@@ -5,6 +5,22 @@ using System.Text;
 
 namespace InfixToRPN
 {
+    /// <summary>
+    ///     Formulario principal para la interfaz de la aplicación.
+    /// </summary>
+    /// <Para>
+    ///     
+    /// </Para>
+    /// <Supuestos>
+    ///     
+    /// </Supuestos>
+    /// <Autor>
+    ///     José Luis Carreón Reyes
+    ///     José Ángel Rocha García
+    /// </Autor>
+    /// <FechaCreacion>
+    ///     30/08/2021
+    /// </FechaCreacion>
     class Operator
     {
         public string operatorCode { get; set; }
@@ -12,6 +28,22 @@ namespace InfixToRPN
         public int precedence { get; set; }
     }
 
+    /// <summary>
+    ///     Formulario principal para la interfaz de la aplicación.
+    /// </summary>
+    /// <Para>
+    ///     
+    /// </Para>
+    /// <Supuestos>
+    ///     
+    /// </Supuestos>
+    /// <Autor>
+    ///     José Luis Carreón Reyes
+    ///     José Ángel Rocha García
+    /// </Autor>
+    /// <FechaCreacion>
+    ///     30/08/2021
+    /// </FechaCreacion>
     class ShuntingYard
     {
         const int LEFT_ASSOCIATIVE = 0;

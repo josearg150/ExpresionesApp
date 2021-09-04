@@ -5,40 +5,63 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-/// <summary>
-/// Formulario principal para la interfaz de la aplicación.
-/// 
-/// 
-/// </summary>
-/// 
-/// <Para>
-/// 
-/// </Para>
-/// 
-/// <Supuestos>
-/// </Supuestos>
-/// 
-/// <Autor>
-/// Jose angel rocha garcia 
-/// Jose luis carreon reyes
-/// </Autor>
-/// 
-/// <FechaCreacion>
-/// 30/08/2021
-/// </FechaCreacion>
 namespace wfExpresionesArbolBinario
 {
+    /// <summary>
+    ///     Formulario principal para la interfaz de la aplicación.
+    /// </summary>
+    /// <Para>
+    ///     
+    /// </Para>
+    /// <Supuestos>
+    ///     
+    /// </Supuestos>
+    /// <Autor>
+    ///     José Luis Carreón Reyes
+    ///     José Ángel Rocha García
+    /// </Autor>
+    /// <FechaCreacion>
+    ///     30/08/2021
+    /// </FechaCreacion>
     public partial class Form1 : Form
     {
-        private char[] Operadores = { '+', '-', '*', '/', '^', '√' };
-        private char[] Numeros = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
-        private bool OperadoresShuntingInicializados = false;
+        //****************************************************************************************
+        // CONSTANTES
+        //****************************************************************************************
+        #region Constantes
+        private readonly char[] Operadores = { '+', '-', '*', '/', '^', '√' };
+        private readonly char[] Numeros = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
+        #endregion Constantes
 
+        //****************************************************************************************
+        // VARIABLES
+        //****************************************************************************************
+        #region Variables
+        private bool OperadoresShuntingInicializados = false;
+        #endregion Variables
+
+        //****************************************************************************************
+        // CONSTRUCTORES
+        //****************************************************************************************
+        #region Constructores
+        /// <summary>
+        /// 
+        /// </summary>
         public Form1()
         {
             InitializeComponent();
         }
+        #endregion Constructores
 
+        //****************************************************************************************
+        // EVENTOS
+        //****************************************************************************************
+        #region Eventos
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             string Expresion = ValidarInput(txbExpresion.Text);
@@ -58,6 +81,75 @@ namespace wfExpresionesArbolBinario
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        // Se presiona el botón de "Aceptar" al presionar <Enter>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txbExpresion_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                button1_Click(this, new EventArgs());
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void salirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Application.Exit();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void informaciónToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.MessageBox.Show("Restricciones:\n" +
+                                                 "1. No se permite introducir operadores al principio de la expresión (excepto la raíz cuadrada).\n" +
+                                                 "2. No se permite introducir operadores al final de la expresión.\n" +
+                                                 "3. No se permite introducir caracteres que no sean operadores o números.\n" +
+                                                 "4. Dos operadores no pueden colocarse consecutivamente, excepto por la raíz cuadrada.\n" +
+                                                 "5. Todo espacio se ignora.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            txbExpresion.Text = "";
+        }
+        #endregion Eventos
+
+        //****************************************************************************************
+        // MÉTODOS
+        //****************************************************************************************
+        #region Metodos
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="expresion"></param>
+        /// <returns></returns>
         private string ValidarInput(string expresion)
         {
             if (expresion.Equals(""))
@@ -136,6 +228,10 @@ namespace wfExpresionesArbolBinario
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="expPostfija"></param>
         private void Graficar(List<string> expPostfija)
         {
             int aux = 0;
@@ -196,39 +292,6 @@ namespace wfExpresionesArbolBinario
             //show the form 
             Formulario.ShowDialog();
         }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        // Se presiona el botón de "Aceptar" al presionar <Enter>
-        private void txbExpresion_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                button1_Click(this, new EventArgs());
-            }
-        }
-
-        private void salirToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            System.Windows.Forms.Application.Exit();
-        }
-
-        private void informaciónToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            System.Windows.Forms.MessageBox.Show("Restricciones:\n" +
-                                                 "1. No se permite introducir operadores al principio de la expresión (excepto la raíz cuadrada).\n" +
-                                                 "2. No se permite introducir operadores al final de la expresión.\n" +
-                                                 "3. No se permite introducir caracteres que no sean operadores o números.\n" +
-                                                 "4. Dos operadores no pueden colocarse consecutivamente, excepto por la raíz cuadrada.\n" +
-                                                 "5. Todo espacio se ignora.");
-        }
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            txbExpresion.Text = "";
-        }
+        #endregion Metodos
     }
 }
