@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace InfixToRPN
+namespace InfijoPosfijo
 {
     /// <summary>
-    ///     Formulario principal para la interfaz de la aplicación.
+    ///     Clase molde que representa a cada operador en una expresión.
     /// </summary>
     /// <Para>
-    ///     
+    ///     Crear operadores, con su respectivo tipo, precedencia, y asociatividad, para su uso en el algoritmo
+    ///     Shunting Yard.
     /// </Para>
     /// <Supuestos>
-    ///     
+    ///     Ninguno.
     /// </Supuestos>
     /// <Autor>
     ///     José Luis Carreón Reyes
@@ -21,21 +22,26 @@ namespace InfixToRPN
     /// <FechaCreacion>
     ///     30/08/2021
     /// </FechaCreacion>
-    class Operator
+    class Operador
     {
-        public string operatorCode { get; set; }
-        public int associativity { get; set; }
-        public int precedence { get; set; }
+        //****************************************************************************************
+        // VARIABLES
+        //****************************************************************************************
+        #region Variables
+        public string CodigoOperador { get; set; }
+        public int Asociatividad { get; set; }
+        public int Precedencia { get; set; }
+        #endregion Variables
     }
 
     /// <summary>
-    ///     Formulario principal para la interfaz de la aplicación.
+    ///     Implementación del algoritmo Shunting Yard.
     /// </summary>
     /// <Para>
-    ///     
+    ///     Convertir expresiones infijas a posfijas (notación polaca revertida) con el algoritmo Shunting Yard.
     /// </Para>
     /// <Supuestos>
-    ///     
+    ///     La expresión a evaluar es una cadena con espacios entre cada término.
     /// </Supuestos>
     /// <Autor>
     ///     José Luis Carreón Reyes
@@ -46,135 +52,157 @@ namespace InfixToRPN
     /// </FechaCreacion>
     class ShuntingYard
     {
-        const int LEFT_ASSOCIATIVE = 0;
-        const int RIGHT_ASSOCIATIVE = 1;
-        static Dictionary<string, Operator> Operators = new Dictionary<string, Operator>();
+        //****************************************************************************************
+        // VARIABLES
+        //****************************************************************************************
+        #region Variables
+        const int IzquierdaAsociatividad = 0;
+        const int DerechaAsociatividad = 1;
+        static Dictionary<string, Operador> Operadores = new Dictionary<string, Operador>();
+        #endregion Variables
 
-        public static void InitializeOperators()
+        //****************************************************************************************
+        // MÉTODOS
+        //****************************************************************************************
+        #region Metodos
+        /// <summary>
+        ///     Inicializa los operadores permitidos con su precedencia y
+        ///     asociatividad correspondiente.
+        /// </summary>
+        public static void InicializarOperadores()
         {
-            Operators.Add("^", new Operator { operatorCode = "^", associativity = RIGHT_ASSOCIATIVE, precedence = 2 });
-            Operators.Add("√", new Operator { operatorCode = "√", associativity = LEFT_ASSOCIATIVE, precedence = 2 });
-            Operators.Add("/", new Operator { operatorCode = "/", associativity = LEFT_ASSOCIATIVE, precedence = 1 });
-            Operators.Add("*", new Operator { operatorCode = "*", associativity = LEFT_ASSOCIATIVE, precedence = 1 });
-            Operators.Add("-", new Operator { operatorCode = "-", associativity = LEFT_ASSOCIATIVE, precedence = 0 });
-            Operators.Add("+", new Operator { operatorCode = "+", associativity = LEFT_ASSOCIATIVE, precedence = 0 });
+            Operadores.Add("^", new Operador { CodigoOperador = "^", Asociatividad = DerechaAsociatividad, Precedencia = 2 });
+            Operadores.Add("√", new Operador { CodigoOperador = "√", Asociatividad = IzquierdaAsociatividad, Precedencia = 2 });
+            Operadores.Add("/", new Operador { CodigoOperador = "/", Asociatividad = IzquierdaAsociatividad, Precedencia = 1 });
+            Operadores.Add("*", new Operador { CodigoOperador = "*", Asociatividad = IzquierdaAsociatividad, Precedencia = 1 });
+            Operadores.Add("-", new Operador { CodigoOperador = "-", Asociatividad = IzquierdaAsociatividad, Precedencia = 0 });
+            Operadores.Add("+", new Operador { CodigoOperador = "+", Asociatividad = IzquierdaAsociatividad, Precedencia = 0 });
         }
 
-        private static bool isOperator(String token)
+        /// <summary>
+        ///     Determina si la pila Operadores contiene un determinado token.
+        /// </summary>
+        /// <param name="Token"></param>
+        /// <returns>Booleano.</returns>
+        private static bool EsOperador(String Token)
         {
-            return Operators.ContainsKey(token);
+            return Operadores.ContainsKey(Token);
         }
 
-        public static string GetRPN(string infixString)
+        /// <summary>
+        ///     Convierte una expresión infija a posfija.
+        /// </summary>
+        /// <param name="ExpresionInfija"></param>
+        /// <returns>Una cadena con la expresión, con un espacio entre cada término.</returns>
+        public static string ConvertirInfijaAPosfija(string ExpresionInfija)
         {
             try
             {
-                char[] separator = { ' ' };
-                string[] tokensArray = infixString.Split(separator, StringSplitOptions.RemoveEmptyEntries);
-                Stack<string> operatorStack = new Stack<string>();
-                StringBuilder outputQueue = new StringBuilder();
+                // Cada término en la expresión infija está separado por un espacio
+                char[] Separador = { ' ' };
+                string[] ArregloTokens = ExpresionInfija.Split(Separador, StringSplitOptions.RemoveEmptyEntries);
+                Stack<string> PilaOperadores = new Stack<string>();
+                StringBuilder Cola = new StringBuilder();
 
-                //Read the tokens one by one
-                for (int i = 0; i < tokensArray.Length; i++)
+                // Se leen los tokens uno por uno
+                for (int i = 0; i < ArregloTokens.Length; i++)
                 {
-                    string token = tokensArray[i];
+                    string Token = ArregloTokens[i];
 
-                    //If the token is a left parenthesis (i.e. "("), then push it onto the stack.
-                    if (token.Equals("("))
+                    // Si el token es un paréntesis izquierdo, entonces se agrega a la pila
+                    if (Token.Equals("("))
                     {
-                        operatorStack.Push(token);
+                        PilaOperadores.Push(Token);
                     }
-                    //If the token is a right parenthesis (i.e. ")"):
-                    else if (token.Equals(")"))
+                    // Si el token es un paréntesis derecho
+                    else if (Token.Equals(")"))
                     {
-                        bool LeftParenthesisFound = false;
-                        //Until the token at the top of the stack is a left parenthesis, pop operators off the stack onto the output queue.
-                        for (int k = 0; k < operatorStack.Count; k++)
+                        bool ParentesisIzquierdoEncontrado = false;
+                        // Hasta que el token en el tope de la pila sea un paréntesis izquierdo, sacar los operadores de la pila y meterlos en la cola
+                        for (int k = 0; k < PilaOperadores.Count; k++)
                         {
-                            if (operatorStack.Peek().Equals("("))
+                            if (PilaOperadores.Peek().Equals("("))
                             {
-                                //Pop the left parenthesis from the stack, but not onto the output queue.                                
-                                operatorStack.Pop();
-                                LeftParenthesisFound = true;
+                                // Saca el paréntesis de la pila, pero no lo mete en la cola.
+                                PilaOperadores.Pop();
+                                ParentesisIzquierdoEncontrado = true;
                                 break;
                             }
                             else
                             {
-                                outputQueue.Append(operatorStack.Pop() + " ");
+                                Cola.Append(PilaOperadores.Pop() + " ");
                             }
                         }
 
-                        //If the token at the top of the stack is a function token, pop it onto the output queue.
-                        // << To be implemented >>
-
-                        //If the stack runs out without finding a left parenthesis, then there are mismatched parentheses
-                        if (operatorStack.Count == 0 && LeftParenthesisFound == false)
+                        // Si la pila se acaba sin encontrar un paréntesis izquierdo, entonces hay paréntesis que no concuerdan
+                        if (PilaOperadores.Count == 0 && ParentesisIzquierdoEncontrado == false)
                         {
-                            throw (new Exception("Parentheses Mismatching."));
+                            throw (new Exception("Error en los paréntesis."));
                         }
                     }
-                    //If the token is an operator o1
-                    else if (isOperator(token))
+                    // Si el token es un operador o1
+                    else if (EsOperador(Token))
                     {
-                        //While there is an operator token, o2, at the top of the operator stack
-                        while (operatorStack.Count > 0 && isOperator(operatorStack.Peek()))
+                        // Mientras haya un operador en el tope de la pila
+                        while (PilaOperadores.Count > 0 && EsOperador(PilaOperadores.Peek()))
                         {
-                            string tokenAtTopOfStack = operatorStack.Peek();
+                            string TokenTopePila = PilaOperadores.Peek();
 
-                            Operator o1 = Operators.Values.Where(opCode => opCode.operatorCode.Equals(token)).First();
-                            Operator o2 = Operators.Values.Where(opCode => opCode.operatorCode.Equals(tokenAtTopOfStack)).First();
+                            Operador o1 = Operadores.Values.Where(opCode => opCode.CodigoOperador.Equals(Token)).First();
+                            Operador o2 = Operadores.Values.Where(opCode => opCode.CodigoOperador.Equals(TokenTopePila)).First();
 
-                            //if o1 is left-associative and its precedence is less than or equal to that of o2, or
-                            //o1 is right associative, and has precedence less than that of o2,
-                            if ((o1.associativity == LEFT_ASSOCIATIVE && o1.precedence <= o2.precedence) || (o1.associativity == RIGHT_ASSOCIATIVE && o1.precedence < o2.precedence))
+                            // Si o1 tiene asociatividad izquierda y su precedencia es igual o mayor a la de o2, o si
+                            // o1 tiene asociatividad derecha, y tiene una precedencia menor que o2
+                            if ((o1.Asociatividad == IzquierdaAsociatividad && o1.Precedencia <= o2.Precedencia) || (o1.Asociatividad == DerechaAsociatividad && o1.Precedencia < o2.Precedencia))
                             {
-                                //pop o2 off the operator stack, onto the output queue      
-                                outputQueue.Append(operatorStack.Pop() + " ");
+                                // Quitar o2 de la pila, y agregarla a la cola
+                                Cola.Append(PilaOperadores.Pop() + " ");
                                 continue;
                             }
                             break;
                         }
-                        //push o1 onto the operator stack.                        
-                        operatorStack.Push(token);
+                        // Se agrega o1 al tope de la pila                    
+                        PilaOperadores.Push(Token);
                     }
-                    //If token is a number
+                    // Si el token es un número
                     else
                     {
-                        //add it to the output queue
-                        outputQueue.Append(token + " ");
+                        // Se agrega a la cola
+                        Cola.Append(Token + " ");
                     }
                 }
 
-                //When there are no more tokens to read:
-                //If the operator token on the top of the stack is a parenthesis, then there are mismatched parentheses.
-                if (operatorStack.Count > 0)
+                // Cuando no haya más tokens que leer
+                // Si el operador en el tope de la pila es un paréntesis, entonces hay paréntesis que no concuerdan.
+                if (PilaOperadores.Count > 0)
                 {
-                    if (operatorStack.Peek().Equals("(") || operatorStack.Peek().Equals(")"))
+                    if (PilaOperadores.Peek().Equals("(") || PilaOperadores.Peek().Equals(")"))
                     {
-                        throw (new Exception("Parentheses Mismatching."));
+                        throw (new Exception("Error en los paréntesis."));
                     }
 
-                    //While there are still operator tokens in the stack:
-                    while (operatorStack.Count > 0)
+                    // Mientras haya tokens de operadores en la pila
+                    while (PilaOperadores.Count > 0)
                     {
-                        if (isOperator(operatorStack.Peek()))
+                        if (EsOperador(PilaOperadores.Peek()))
                         {
-                            //Pop the operator onto the output queue.
-                            outputQueue.Append(operatorStack.Pop() + " ");
+                            // Sacar el operador y meterlo en la cola
+                            Cola.Append(PilaOperadores.Pop() + " ");
                         }
                         else
                         {
-                            operatorStack.Pop();
+                            PilaOperadores.Pop();
                         }
                     }
                 }
 
-                return outputQueue.ToString();
+                return Cola.ToString();
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
+        #endregion Metodos
     }
 }
